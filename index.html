@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PhysioStroop</title>
+  <meta name="description" content="PhysioStroop — Test de Stroop interactif pour la rééducation (FR/EN).">
+  <meta name="theme-color" content="#ffffff" />
+  <!-- PWA: on ajoutera manifest + SW à l’étape PWA -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Écran : MENU -->
+  <main id="screen-menu" class="screen active">
+    <h1>PhysioStroop</h1>
+
+    <section class="group">
+      <label for="lang-select">Langue / Language</label>
+      <select id="lang-select">
+        <option value="auto" selected>Auto (système)</option>
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select>
+    </section>
+
+    <section class="group">
+      <label for="mode-select">Mode</label>
+      <select id="mode-select">
+        <option value="auto" selected>Automatique</option>
+        <option value="manual">Manuel (toucher pour suivant)</option>
+      </select>
+    </section>
+
+    <section class="group">
+      <label for="colors-select">Jeu de couleurs</label>
+      <select id="colors-select">
+        <option value="4" selected>Standard (4 couleurs)</option>
+        <option value="6">Étendu (6 couleurs)</option>
+      </select>
+    </section>
+
+    <section class="group">
+      <label for="session-duration">Durée session (s)</label>
+      <input id="session-duration" type="number" min="5" max="3600" step="5" value="45" />
+    </section>
+
+    <section class="group" id="auto-only">
+      <label for="stim-duration">Affichage par mot (s)</label>
+      <input id="stim-duration" type="number" min="0.5" max="10" step="0.5" value="2" />
+    </section>
+
+    <section class="group">
+      <label for="autorestart">Redémarrage auto après fin (s)</label>
+      <input id="autorestart" type="number" min="0" max="30" step="1" value="15" />
+    </section>
+
+    <section class="group row">
+      <label for="darkmode">Mode sombre</label>
+      <input id="darkmode" type="checkbox" />
+    </section>
+
+    <button id="start-btn" class="primary">Démarrer</button>
+
+    <p class="note">
+      Affichage incongruent uniquement. Texte en MAJUSCULES. Fond blanc (ou sombre).
+    </p>
+  </main>
+
+  <!-- Écran : COMPTE À REBOURS -->
+  <section id="screen-countdown" class="screen">
+    <div class="countdown" aria-live="polite">4</div>
+  </section>
+
+  <!-- Écran : SESSION -->
+  <section id="screen-session" class="screen">
+    <button id="stop-btn" class="stop" aria-label="Stop">STOP</button>
+    <div id="stimulus" class="word" role="img" aria-label="stimulus">ROUGE</div>
+  </section>
+
+  <!-- Écran : FIN -->
+  <section id="screen-end" class="screen">
+    <h2>Session terminée</h2>
+    <div id="end-autorestart" class="subtle"></div>
+    <div class="actions">
+      <button id="restart-btn" class="primary">Relancer</button>
+      <button id="menu-btn">Menu principal</button>
+    </div>
+  </section>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
