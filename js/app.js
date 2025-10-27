@@ -178,24 +178,77 @@ function onAutoNext() {
   renderStimulusPlaceholder();
 }
 
-// Pour l’instant, juste alterner le mot (on branchera la vraie logique Stroop ensuite)
-let demo = 0;
+// --------- Nouvelle logique Stroop incongruente ---------
+
+// Codes couleur standard et étendu
+const COLOR_SETS = {
+  fr: {
+    4: [
+      { name: 'ROUGE', color: '#FF0000' },
+      { name: 'BLEU',  color: '#0000FF' },
+      { name: 'VERT',  color: '#008000' },
+      { name: 'JAUNE', color: '#FFFF00' },
+    ],
+    6: [
+      { name: 'ROUGE',  color: '#FF0000' },
+      { name: 'BLEU',   color: '#0000FF' },
+      { name: 'VERT',   color: '#008000' },
+      { name: 'JAUNE',  color: '#FFFF00' },
+      { name: 'ORANGE', color: '#FFA500' },
+      { name: 'VIOLET', color: '#800080' },
+    ]
+  },
+  en: {
+    4: [
+      { name: 'RED',   color: '#FF0000' },
+      { name: 'BLUE',  color: '#0000FF' },
+      { name: 'GREEN', color: '#008000' },
+      { name: 'YELLOW',color: '#FFFF00' },
+    ],
+    6: [
+      { name: 'RED',    color: '#FF0000' },
+      { name: 'BLUE',   color: '#0000FF' },
+      { name: 'GREEN',  color: '#008000' },
+      { name: 'YELLOW', color: '#FFFF00' },
+      { name: 'ORANGE', color: '#FFA500' },
+      { name: 'PURPLE', color: '#800080' },
+    ]
+  }
+};
+
+let lastPair = null; // pour éviter même mot-couleur
+
 function renderStimulusPlaceholder() {
   const lang = detectLanguage();
-  const words = (lang === 'en')
-    ? ['RED','BLUE','GREEN','YELLOW','ORANGE','PURPLE']
-    : ['ROUGE','BLEU','VERT','JAUNE','ORANGE','VIOLET'];
+  const count = parseInt(els.colors.value, 10); // 4 ou 6
+  const set = COLOR_SETS[lang][count];
 
-  demo = (demo + 1) % words.length;
-  els.stim.textContent = words[demo];
+  // Choisir un mot au hasard
+  const wordIndex = Math.floor(Math.random() * set.length);
+  const word = set[wordIndex].name;
 
-  // Position aléatoire légère (±10% écran)
-  const dx = (Math.random() * 20 - 10); // -10 à +10 vw
-  const dy = (Math.random() * 20 - 10); // -10 à +10 vh
+  // Choisir une couleur d’encre différente (incongruente)
+  let colorIndex;
+  do {
+    colorIndex = Math.floor(Math.random() * set.length);
+  } while (colorIndex === wordIndex);
+
+  const color = set[colorIndex].color;
+
+  // Vérifier qu’on ne répète pas la même paire mot-couleur
+  if (lastPair && lastPair.word === word && lastPair.color === color) {
+    return renderStimulusPlaceholder(); // relance pour une nouvelle combinaison
+  }
+  lastPair = { word, color };
+
+  // Appliquer affichage
+  els.stim.textContent = word;
+  els.stim.style.color = color;
+
+  // Position aléatoire légère (±10 %)
+  const dx = (Math.random() * 20 - 10);
+  const dy = (Math.random() * 20 - 10);
   els.stim.style.position = 'relative';
   els.stim.style.left = dx + 'vw';
   els.stim.style.top = dy + 'vh';
-
-  // Couleur: pour l’instant noir ; couleur réelle viendra à l’étape Stroop
-  els.stim.style.color = 'currentColor';
 }
