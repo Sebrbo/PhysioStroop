@@ -41,9 +41,18 @@ button.stop:hover { opacity: 1; }
 
 .note { color: var(--muted); font-size: 14px; }
 
+/* Par défaut, tous les écrans sont cachés via .screen { display:none } */
 #screen-countdown, #screen-session, #screen-end {
-  display: none;
-  align-items: center; justify-content: center; text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Quand actifs, ces trois écrans doivent s’afficher en flex pour centrer le contenu */
+#screen-countdown.active,
+#screen-session.active,
+#screen-end.active {
+  display: flex;
 }
 
 .countdown {
