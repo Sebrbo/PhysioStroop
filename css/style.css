@@ -1,0 +1,69 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --accent: #0055ff;
+  --muted: #666666;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.screen { display: none; padding: 24px; min-height: 100vh; }
+.screen.active { display: block; }
+
+h1, h2 { margin: 0 0 16px; }
+
+.group { margin: 12px 0; display: flex; flex-direction: column; gap: 6px; }
+.group.row { flex-direction: row; align-items: center; gap: 12px; }
+label { font-weight: 600; }
+input[type="number"], select {
+  padding: 10px 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 8px;
+  max-width: 260px;
+}
+
+button {
+  padding: 12px 18px; font-size: 16px; border-radius: 12px; border: 1px solid #ddd;
+  background: #f8f8f8; cursor: pointer;
+}
+button.primary {
+  background: var(--accent); color: white; border: none;
+}
+button.stop {
+  position: fixed; top: 12px; right: 12px;
+  background: #f1f1f1; border: 1px solid #ccc; color: #222; opacity: 0.8;
+}
+button.stop:hover { opacity: 1; }
+
+.note { color: var(--muted); font-size: 14px; }
+
+#screen-countdown, #screen-session, #screen-end {
+  display: none;
+  align-items: center; justify-content: center; text-align: center;
+}
+
+.countdown {
+  font-size: 18vh; font-weight: 800;
+}
+
+.word {
+  font-weight: 800;
+  font-size: 14vh;            /* Fixe, comme demandé */
+  text-transform: uppercase;  /* Majuscules */
+  user-select: none;
+}
+
+.subtle { color: var(--muted); margin: 12px 0; min-height: 24px; }
+.actions { display: flex; gap: 12px; justify-content: center; }
+
+/* Mode sombre (sera activé via une classe sur <body>) */
+body.dark {
+  --bg: #000000;
+  --fg: #f5f5f5;
+  --muted: #aaaaaa;
+  --accent: #3b82f6;
+}
