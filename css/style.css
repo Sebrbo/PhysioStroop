@@ -76,3 +76,8 @@ body.dark {
   --muted: #aaaaaa;
   --accent: #3b82f6;
 }
+
+#intro details { background: rgba(0,0,0,0.03); border: 1px solid #e5e5e5; border-radius: 10px; padding: 12px 14px; }
+#intro summary { cursor: pointer; font-weight: 700; margin-bottom: 8px; }
+#intro p { margin: 8px 0; line-height: 1.4; }
+body.dark #intro details { background: rgba(255,255,255,0.06); border-color: #333; }
