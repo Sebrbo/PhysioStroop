@@ -98,7 +98,7 @@ function applyUIText(lang) {
   document.querySelector('.note').textContent = t.note;
 }
 
-// Faire apparaître l'intro dans la bonne langue
+// --- Affichage de l'introduction selon la langue ---
 function applyIntro(lang) {
   const fr = document.getElementById('intro-fr');
   const en = document.getElementById('intro-en');
@@ -114,8 +114,6 @@ function applyIntro(lang) {
     sum.textContent = 'À propos';
   }
 }
-applyIntro(currentLang);
-
 
 function onModeChange() {
   els.autoOnly.style.display = (els.mode.value === 'auto') ? 'flex' : 'none';
@@ -148,6 +146,7 @@ onModeChange();
 // --- Appliquer les textes d'interface selon la langue ---
 const currentLang = detectLanguage();
 applyUIText(currentLang);
+applyIntro(currentLang);
 
 // Recharge la page quand on change la langue
 els.lang.addEventListener('change', () => {
@@ -222,9 +221,7 @@ function startSession() {
     }
   }
 
-  // Pour le mode automatique, on tick toutes les X secondes.
   attachStimulusHandlers();
-
   renderStimulusPlaceholder();
 
   clearInterval(timers.session);
