@@ -75,6 +75,18 @@ function detectLanguage() {
 els.mode.addEventListener('change', onModeChange);
 onModeChange();
 
+// Recharge la page quand on change la langue
+els.lang.addEventListener('change', () => {
+  const val = els.lang.value; // 'auto' | 'fr' | 'en'
+  const url = new URL(window.location.href);
+  if (val === 'auto') {
+    url.searchParams.delete('lang');
+  } else {
+    url.searchParams.set('lang', val);
+  }
+  window.location.href = url.toString(); // recharge avec la bonne langue
+});
+
 els.dark.addEventListener('change', () => applyDarkMode(els.dark.checked));
 
 // Démarrer flux: menu -> countdown -> session
