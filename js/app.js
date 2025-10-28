@@ -98,6 +98,25 @@ function applyUIText(lang) {
   document.querySelector('.note').textContent = t.note;
 }
 
+// Faire apparaître l'intro dans la bonne langue
+function applyIntro(lang) {
+  const fr = document.getElementById('intro-fr');
+  const en = document.getElementById('intro-en');
+  const sum = document.getElementById('intro-summary');
+  if (!fr || !en || !sum) return;
+  if (lang === 'en') {
+    fr.style.display = 'none';
+    en.style.display = 'block';
+    sum.textContent = 'About';
+  } else {
+    fr.style.display = 'block';
+    en.style.display = 'none';
+    sum.textContent = 'À propos';
+  }
+}
+applyIntro(currentLang);
+
+
 function onModeChange() {
   els.autoOnly.style.display = (els.mode.value === 'auto') ? 'flex' : 'none';
 }
