@@ -26,6 +26,40 @@ const els = {
   menuBtn: document.getElementById('menu-btn'),
 };
 
+// --- Textes d'interface multilingues ---
+const UI_TEXT = {
+  fr: {
+    start: "Démarrer",
+    mode: "Mode",
+    lang: "Langue / Language",
+    colors: "Jeu de couleurs",
+    session: "Durée session (s)",
+    stim: "Affichage par mot (s)",
+    autorestart: "Redémarrage auto après fin (s)",
+    dark: "Mode sombre",
+    note: "Affichage incongruent uniquement. Texte en MAJUSCULES. Fond blanc (ou sombre).",
+    stop: "STOP",
+    endTitle: "Session terminée",
+    restart: "Relancer",
+    menu: "Menu principal"
+  },
+  en: {
+    start: "Start",
+    mode: "Mode",
+    lang: "Language / Langue",
+    colors: "Color set",
+    session: "Session duration (s)",
+    stim: "Word display time (s)",
+    autorestart: "Auto restart after end (s)",
+    dark: "Dark mode",
+    note: "Incongruent display only. Uppercase text. White (or dark) background.",
+    stop: "STOP",
+    endTitle: "Session complete",
+    restart: "Restart",
+    menu: "Main menu"
+  }
+};
+
 let timers = {
   session: null,
   countdown: null,
@@ -39,6 +73,26 @@ function show(name) {
 
 function applyDarkMode(on) {
   document.body.classList.toggle('dark', !!on);
+}
+
+function applyUIText(lang) {
+  const t = UI_TEXT[lang] || UI_TEXT.fr;
+
+  // Mettre à jour les labels
+  document.querySelector('label[for="lang-select"]').textContent = t.lang;
+  document.querySelector('label[for="mode-select"]').textContent = t.mode;
+  document.querySelector('label[for="colors-select"]').textContent = t.colors;
+  document.querySelector('label[for="session-duration"]').textContent = t.session;
+  document.querySelector('label[for="stim-duration"]').textContent = t.stim;
+  document.querySelector('label[for="autorestart"]').textContent = t.autorestart;
+  document.querySelector('label[for="darkmode"]').textContent = t.dark;
+
+  document.getElementById('start-btn').textContent = t.start;
+  document.getElementById('stop-btn').textContent = t.stop;
+  document.querySelector('#screen-end h2').textContent = t.endTitle;
+  document.getElementById('restart-btn').textContent = t.restart;
+  document.getElementById('menu-btn').textContent = t.menu;
+  document.querySelector('.note').textContent = t.note;
 }
 
 function onModeChange() {
@@ -74,6 +128,10 @@ function detectLanguage() {
 // -------- Navigation de base
 els.mode.addEventListener('change', onModeChange);
 onModeChange();
+
+// --- Appliquer les textes d'interface selon la langue ---
+const currentLang = detectLanguage();
+applyUIText(currentLang);
 
 // Recharge la page quand on change la langue
 els.lang.addEventListener('change', () => {
