@@ -1,0 +1,23 @@
+{
+  "name": "PhysioStroop",
+  "short_name": "PhysioStroop",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "description": "Test de Stroop interactif pour la rééducation cognitive. PhysioStroop est une application web bilingue, installable et utilisable hors ligne.",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
