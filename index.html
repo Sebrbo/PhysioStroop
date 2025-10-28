@@ -11,6 +11,16 @@
   <!-- PWA: on ajoutera manifest + SW à l’étape PWA -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .then(() => console.log("Service Worker registered"))
+      .catch((err) => console.warn("SW registration failed", err));
+  });
+}
+</script>
 <body>
   <!-- Écran : MENU -->
   <main id="screen-menu" class="screen active">
