@@ -74,8 +74,24 @@ if ("serviceWorker" in navigator) {
     <button id="start-btn" class="primary">Démarrer</button>
 
     <p class="note">
-      Affichage incongruent uniquement. Texte en MAJUSCULES. Fond blanc (ou sombre).
+     <!-- Aide / À propos -->
+<section id="intro" class="group">
+  <details id="intro-box" open>
+    <summary id="intro-summary">À propos / About</summary>
+    <div id="intro-fr">
+      <p><strong>But :</strong> PhysioStroop est un outil de distraction cognitive inspiré du test de Stroop. Il affiche des <em>mots de couleur</em> dans une <em>couleur d’encre différente</em> (toujours incongruent) afin de solliciter l’attention et la flexibilité cognitive pendant des exercices de rééducation.</p>
+      <p><strong>Fonctionnement :</strong> choisissez la langue, le mode (automatique ou manuel), la durée de la session et, si besoin, le redémarrage automatique. En mode <em>automatique</em>, chaque mot s’affiche pendant le temps défini. En mode <em>manuel</em>, touchez l’écran pour passer au suivant. Le bouton <strong>STOP</strong> interrompt la session.</p>
+      <p><strong>Remarques :</strong> pas de mesure de temps/réponses ; fond blanc par défaut (mode sombre optionnel) ; position du mot légèrement variable pour maintenir l’attention.</p>
+    </div>
+    <div id="intro-en" style="display:none">
+      <p><strong>Purpose:</strong> PhysioStroop is a cognitive distraction tool inspired by the Stroop test. It displays <em>color words</em> in a <em>different ink color</em> (always incongruent) to engage attention and cognitive flexibility during rehabilitation tasks.</p>
+      <p><strong>How it works:</strong> choose language, mode (automatic or manual), session duration, and optional auto-restart. In <em>automatic</em> mode, each word shows for the selected time. In <em>manual</em> mode, tap anywhere to advance. The <strong>STOP</strong> button ends the session.</p>
+      <p><strong>Notes:</strong> no timing/response measurement; white background by default (optional dark mode); slight position jitter to maintain attention.</p>
+    </div>
+  </details>
+</section>
     </p>
+    
   </main>
 
   <!-- Écran : COMPTE À REBOURS -->
