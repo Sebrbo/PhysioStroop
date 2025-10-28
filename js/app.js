@@ -144,9 +144,26 @@ els.mode.addEventListener('change', onModeChange);
 onModeChange();
 
 // --- Appliquer les textes d'interface selon la langue ---
-const currentLang = detectLanguage();
-applyUIText(currentLang);
-applyIntro(currentLang);
+
+function initLanguageUI() {
+  const lang = detectLanguage();
+  console.log('[PhysioStroop] Language =', lang);
+  applyUIText(lang);
+  applyIntro(lang);
+}
+
+// Lance l'init une première fois
+initLanguageUI();
+
+// Recharge la page quand on change la langue (pour garder ?lang= en URL)
+els.lang.addEventListener('change', () => {
+  const val = els.lang.value; // 'auto' | 'fr' | 'en'
+  const url = new URL(window.location.href);
+  if (val === 'auto') url.searchParams.delete('lang');
+  else url.searchParams.set('lang', val);
+  window.location.href = url.toString();
+});
+
 
 // Recharge la page quand on change la langue
 els.lang.addEventListener('change', () => {
