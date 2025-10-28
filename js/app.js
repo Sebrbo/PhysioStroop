@@ -1,4 +1,4 @@
-// PhysioStroop — app.js (squelette)
+// PhysioStroop — app.js
 
 const screens = {
   menu: document.getElementById('screen-menu'),
@@ -66,6 +66,9 @@ let timers = {
   autorestart: null,
 };
 
+// --- Variable Wake Lock (empêche mise en veille) ---
+let wakeLock = null;
+
 function show(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
@@ -96,20 +99,14 @@ function applyUIText(lang) {
 }
 
 function onModeChange() {
-  // Affichage du champ "affichage par mot" uniquement si mode auto
   els.autoOnly.style.display = (els.mode.value === 'auto') ? 'flex' : 'none';
 }
 
 function detectLanguage() {
-  // 1) Priorité au paramètre ?lang=fr|en dans l’URL
   const params = new URLSearchParams(window.location.search);
   const qlang = (params.get('lang') || '').toLowerCase();
   if (qlang === 'fr' || qlang === 'en') return qlang;
-
-  // 2) Sinon, valeur du sélecteur (si pas "auto")
   if (els.lang.value !== 'auto') return els.lang.value;
-
-  // 3) Sinon, langue système
   const sys = (navigator.language || 'fr').slice(0,2).toLowerCase();
   return (sys === 'en') ? 'en' : 'fr';
 }
@@ -135,19 +132,18 @@ applyUIText(currentLang);
 
 // Recharge la page quand on change la langue
 els.lang.addEventListener('change', () => {
-  const val = els.lang.value; // 'auto' | 'fr' | 'en'
+  const val = els.lang.value;
   const url = new URL(window.location.href);
   if (val === 'auto') {
     url.searchParams.delete('lang');
   } else {
     url.searchParams.set('lang', val);
   }
-  window.location.href = url.toString(); // recharge avec la bonne langue
+  window.location.href = url.toString();
 });
 
 els.dark.addEventListener('change', () => applyDarkMode(els.dark.checked));
 
-// Démarrer flux: menu -> countdown -> session
 els.start.addEventListener('click', () => {
   applyDarkMode(els.dark.checked);
   startCountdown();
@@ -169,7 +165,6 @@ function startCountdown() {
   const seq = ['4','3','2','1','Go'];
   let i = 0;
   els.countdown.textContent = seq[i];
-
   clearInterval(timers.countdown);
   timers.countdown = setInterval(() => {
     i++;
@@ -182,7 +177,7 @@ function startCountdown() {
   }, 1000);
 }
 
-// -------- Session (on branchera la logique Stroop à l’étape suivante)
+// -------- Session --------
 let sessionEndAt = 0;
 let sessionTickTimer = null;
 
@@ -192,11 +187,25 @@ function startSession() {
   const total = clamp(parseFloat(els.sessionDuration.value) || 45, 5, 3600);
   sessionEndAt = Date.now() + total * 1000;
 
+  // --- Empêcher la mise en veille de l’écran ---
+  if ('wakeLock' in navigator) {
+    try {
+      navigator.wakeLock.request('screen').then(lock => {
+        wakeLock = lock;
+        console.log('🔒 Écran maintenu allumé');
+        wakeLock.addEventListener('release', () => {
+          console.log('🔓 Écran autorisé à s’éteindre');
+          wakeLock = null;
+        });
+      });
+    } catch (err) {
+      console.warn('WakeLock non disponible :', err);
+    }
+  }
+
   // Pour le mode automatique, on tick toutes les X secondes.
-  // Pour le mode manuel, on change au toucher.
   attachStimulusHandlers();
 
-  // Afficher le premier stimulus (placeholder pour l’instant)
   renderStimulusPlaceholder();
 
   clearInterval(timers.session);
@@ -210,6 +219,17 @@ function startSession() {
 function stopSessionToEnd() {
   clearInterval(timers.session);
   detachStimulusHandlers();
+
+  // --- Libérer le Wake Lock ---
+  if (wakeLock) {
+    try {
+      wakeLock.release();
+    } catch (err) {
+      console.warn('Erreur libération WakeLock :', err);
+    }
+    wakeLock = null;
+  }
+
   show('end');
 
   const delay = clamp(parseFloat(els.autorestart.value) || 0, 0, 30);
@@ -234,6 +254,7 @@ function startAutorestartCountdown(sec) {
     }
   }, 1000);
 }
+
 function clearAutorestart() {
   clearInterval(timers.autorestart);
   els.endAutorestart.textContent = '';
@@ -241,13 +262,11 @@ function clearAutorestart() {
 
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-// ------- Gestion du stimulus (placeholder pour valider l’UI)
+// ------- Gestion du stimulus
 function attachStimulusHandlers() {
   if (els.mode.value === 'manual') {
-    // Tap anywhere to change
     screens.session.addEventListener('click', onManualNext);
   } else {
-    // Auto advance
     const step = clamp(parseFloat(els.stimDuration.value) || 2, 0.5, 10);
     sessionTickTimer = setInterval(onAutoNext, step * 1000);
   }
@@ -259,7 +278,6 @@ function detachStimulusHandlers() {
 }
 
 function onManualNext(e) {
-  // éviter de déclencher si on tape sur STOP
   if (e.target === els.stop) return;
   renderStimulusPlaceholder();
 }
@@ -267,9 +285,7 @@ function onAutoNext() {
   renderStimulusPlaceholder();
 }
 
-// --------- Nouvelle logique Stroop incongruente ---------
-
-// Codes couleur standard et étendu
+// --------- Logique Stroop incongruente ---------
 const COLOR_SETS = {
   fr: {
     4: [
@@ -305,18 +321,16 @@ const COLOR_SETS = {
   }
 };
 
-let lastPair = null; // pour éviter même mot-couleur
+let lastPair = null;
 
 function renderStimulusPlaceholder() {
   const lang = detectLanguage();
-  const count = parseInt(els.colors.value, 10); // 4 ou 6
+  const count = parseInt(els.colors.value, 10);
   const set = COLOR_SETS[lang][count];
 
-  // Choisir un mot au hasard
   const wordIndex = Math.floor(Math.random() * set.length);
   const word = set[wordIndex].name;
 
-  // Choisir une couleur d’encre différente (incongruente)
   let colorIndex;
   do {
     colorIndex = Math.floor(Math.random() * set.length);
@@ -324,17 +338,14 @@ function renderStimulusPlaceholder() {
 
   const color = set[colorIndex].color;
 
-  // Vérifier qu’on ne répète pas la même paire mot-couleur
   if (lastPair && lastPair.word === word && lastPair.color === color) {
-    return renderStimulusPlaceholder(); // relance pour une nouvelle combinaison
+    return renderStimulusPlaceholder();
   }
   lastPair = { word, color };
 
-  // Appliquer affichage
   els.stim.textContent = word;
   els.stim.style.color = color;
 
-  // Position aléatoire légère (±10 %)
   const dx = (Math.random() * 20 - 10);
   const dy = (Math.random() * 20 - 10);
   els.stim.style.position = 'relative';
