@@ -47,10 +47,29 @@ function onModeChange() {
 }
 
 function detectLanguage() {
+  // 1) Priorité au paramètre ?lang=fr|en dans l’URL
+  const params = new URLSearchParams(window.location.search);
+  const qlang = (params.get('lang') || '').toLowerCase();
+  if (qlang === 'fr' || qlang === 'en') return qlang;
+
+  // 2) Sinon, valeur du sélecteur (si pas "auto")
   if (els.lang.value !== 'auto') return els.lang.value;
+
+  // 3) Sinon, langue système
   const sys = (navigator.language || 'fr').slice(0,2).toLowerCase();
   return (sys === 'en') ? 'en' : 'fr';
 }
+
+// Synchroniser le menu langue avec l'URL (si ?lang=fr ou ?lang=en)
+(function syncLangSelectFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const qlang = (params.get('lang') || '').toLowerCase();
+  if (qlang === 'fr' || qlang === 'en') {
+    els.lang.value = qlang;
+  } else {
+    els.lang.value = 'auto';
+  }
+})();
 
 // -------- Navigation de base
 els.mode.addEventListener('change', onModeChange);
