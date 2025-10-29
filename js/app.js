@@ -95,9 +95,6 @@ function applyUIText(lang) {
   document.querySelector('#screen-end h2').textContent = t.endTitle;
   document.getElementById('restart-btn').textContent = t.restart;
   document.getElementById('menu-btn').textContent = t.menu;
-
-  const note = document.querySelector('.note');
-  if (note) note.textContent = t.note;
 }
 
 // --- Affichage de l'introduction et des notes selon la langue ---
