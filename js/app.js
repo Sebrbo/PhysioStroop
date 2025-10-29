@@ -98,20 +98,35 @@ function applyUIText(lang) {
   document.querySelector('.note').textContent = t.note;
 }
 
-// --- Affichage de l'introduction selon la langue ---
+// --- Affichage de l'introduction et des notes selon la langue ---
 function applyIntro(lang) {
+  // --- Texte d'introduction (À propos / About) ---
   const fr = document.getElementById('intro-fr');
   const en = document.getElementById('intro-en');
   const sum = document.getElementById('intro-summary');
-  if (!fr || !en || !sum) return;
-  if (lang === 'en') {
-    fr.style.display = 'none';
-    en.style.display = 'block';
-    sum.textContent = 'About';
-  } else {
-    fr.style.display = 'block';
-    en.style.display = 'none';
-    sum.textContent = 'À propos';
+  if (fr && en && sum) {
+    if (lang === 'en') {
+      fr.style.display = 'none';
+      en.style.display = 'block';
+      sum.textContent = 'About';
+    } else {
+      fr.style.display = 'block';
+      en.style.display = 'none';
+      sum.textContent = 'À propos';
+    }
+  }
+
+  // --- Note d'installation (Add to Home Screen) ---
+  const noteFr = document.querySelector('.install-note');
+  const noteEn = document.querySelector('.install-note-en');
+  if (noteFr && noteEn) {
+    if (lang === 'en') {
+      noteFr.style.display = 'none';
+      noteEn.style.display = 'block';
+    } else {
+      noteFr.style.display = 'block';
+      noteEn.style.display = 'none';
+    }
   }
 }
 
