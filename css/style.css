@@ -81,3 +81,17 @@ body.dark {
 #intro summary { cursor: pointer; font-weight: 700; margin-bottom: 8px; }
 #intro p { margin: 8px 0; line-height: 1.4; }
 body.dark #intro details { background: rgba(255,255,255,0.06); border-color: #333; }
+
+.install-note, .install-note-en {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background: rgba(0,0,0,0.03);
+  border: 1px solid #e5e5e5;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+body.dark .install-note, body.dark .install-note-en {
+  background: rgba(255,255,255,0.06);
+  border-color: #333;
+}
