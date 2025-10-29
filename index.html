@@ -2,152 +2,147 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>PhysioStroop</title>
-  <meta name="description" content="PhysioStroop — Test de Stroop interactif pour la rééducation (FR/EN).">
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="manifest" href="manifest.webmanifest" />
-<link rel="icon" href="icons/icon-192.png" />
-  <!-- PWA: on ajoutera manifest + SW à l’étape PWA -->
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><!-- Page Title: replace me --></title>
+  <meta name="description" content="<!-- 155–160 chars max: replace me -->" />
+  <link rel="canonical" href="https://example.com/current-page" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<!-- OG title -->" />
+  <meta property="og:description" content="<!-- OG description -->" />
+  <meta property="og:url" content="https://example.com/current-page" />
+  <meta property="og:image" content="https://example.com/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Preconnects (only keep what you use) -->
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/lit.css" />
+  <!-- Fallback critical styles if needed -->
+  <style>
+    :root { --maxw: 1100px; }
+    html { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; line-height: 1.5; color: #111; background: #fff; }
+    .container { max-width: var(--maxw); margin-inline: auto; padding: 1rem; }
+    header, nav, main, footer { display: block; }
+    .skip-link { position: absolute; left: -9999px; }
+    .skip-link:focus { left: 0; top: 0; background: #fff; padding: .5rem .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .site-header { border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 20; }
+    .brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: inherit; font-weight: 700; }
+    .brand img { width: 28px; height: 28px; }
+    .nav { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .nav a { text-decoration: none; padding: .5rem .75rem; border-radius: .5rem; }
+    .nav a[aria-current="page"] { background: #f2f4f7; }
+    .hero { padding: 2rem 0 1rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card { border: 1px solid #eee; border-radius: .75rem; padding: 1rem; background: #fff; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0, 0, 1px, 1px); border: 0; padding: 0; }
+    footer { border-top: 1px solid #eee; margin-top: 2rem; padding: 1rem 0; color: #666; }
+    img { max-width: 100%; height: auto; }
+  </style>
 </head>
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .then(() => console.log("Service Worker registered"))
-      .catch((err) => console.warn("SW registration failed", err));
-  });
-}
-</script>
 <body>
-  <!-- Écran : MENU -->
-  <main id="screen-menu" class="screen active">
-    <h1>PhysioStroop</h1>
+  <a class="skip-link" href="#main">Aller au contenu</a>
 
-    <section class="group">
-      <label for="lang-select">Langue / Language</label>
-      <select id="lang-select">
-        <option value="auto" selected>Auto (système)</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </select>
-    </section>
+  <header class="site-header" role="banner">
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+      <a href="/" class="brand" aria-label="Accueil">
+        <img src="/img/logo.svg" alt="" />
+        <span><!-- Your Brand --></span>
+      </a>
 
-    <section class="group">
-      <label for="mode-select">Mode</label>
-      <select id="mode-select">
-        <option value="auto" selected>Automatique</option>
-        <option value="manual">Manuel (toucher pour suivant)</option>
-      </select>
-    </section>
-
-    <section class="group">
-      <label for="colors-select">Jeu de couleurs</label>
-      <select id="colors-select">
-        <option value="4" selected>Standard (4 couleurs)</option>
-        <option value="6">Étendu (6 couleurs)</option>
-      </select>
-    </section>
-
-    <section class="group">
-      <label for="session-duration">Durée session (s)</label>
-      <input id="session-duration" type="number" min="5" max="3600" step="5" value="45" />
-    </section>
-
-    <section class="group" id="auto-only">
-      <label for="stim-duration">Affichage par mot (s)</label>
-      <input id="stim-duration" type="number" min="0.5" max="10" step="0.5" value="2" />
-    </section>
-
-    <section class="group">
-      <label for="autorestart">Redémarrage auto après fin (s)</label>
-      <input id="autorestart" type="number" min="0" max="30" step="1" value="15" />
-    </section>
-
-    <section class="group row">
-      <label for="darkmode">Mode sombre</label>
-      <input id="darkmode" type="checkbox" />
-    </section>
-
-    <button id="start-btn" class="primary">Démarrer</button>
-
-    <!-- Informations d'installation (FR/EN) -->
-<section id="install-infos">
-  <p class="install-note">
-    📱 <strong>Astuce :</strong> vous pouvez <strong>ajouter PhysioStroop sur votre écran d’accueil</strong> comme une application.<br>
-    – <strong>Sur iPhone / iPad (Safari)</strong> : appuyez sur le bouton <em>Partager</em> puis choisissez <em>“Ajouter à l’écran d’accueil”</em>.<br>
-    – <strong>Sur Android (Chrome)</strong> : ouvrez le menu ⋮ puis choisissez <em>“Installer l’application”</em> ou <em>“Ajouter à l’écran d’accueil”</em>.<br><br>
-    ⚡️ Une fois installée, <strong>l’application fonctionne sans connexion Internet</strong> (mode <em>hors ligne</em>).
-  </p>
-
-  <p class="install-note-en">
-    📱 <strong>Tip:</strong> you can <strong>add PhysioStroop to your home screen</strong> just like a native app.<br>
-    – <strong>On iPhone / iPad (Safari)</strong>: tap the <em>Share</em> button, then choose <em>“Add to Home Screen”</em>.<br>
-    – <strong>On Android (Chrome)</strong>: open the ⋮ menu, then tap <em>“Install App”</em> or <em>“Add to Home Screen.”</em><br><br>
-    ⚡️ Once installed, <strong>the app works even without an Internet connection</strong> (offline mode).
-  </p>
-</section>
-     <!-- Aide / À propos -->
-<section id="intro" class="group">
-  <details id="intro-box" open>
-    <summary id="intro-summary">À propos / About</summary>
-    <div id="intro-fr">
-      <p><strong>But :</strong> PhysioStroop est un outil de distraction cognitive inspiré du test de Stroop. Il affiche des <em>mots de couleur</em> dans une <em>couleur d’encre différente</em> (toujours incongruent) afin de solliciter l’attention et la flexibilité cognitive pendant des exercices de rééducation.</p>
-      <p><strong>Fonctionnement :</strong> choisissez la langue, le mode (automatique ou manuel), la durée de la session et, si besoin, le redémarrage automatique. En mode <em>automatique</em>, chaque mot s’affiche pendant le temps défini. En mode <em>manuel</em>, touchez l’écran pour passer au suivant. Le bouton <strong>STOP</strong> interrompt la session.</p>
-      <p><strong>Remarques :</strong> pas de mesure de temps/réponses ; fond blanc par défaut (mode sombre optionnel) ; position du mot légèrement variable pour maintenir l’attention.</p>
+      <nav class="nav" aria-label="Navigation principale">
+        <!-- Update hrefs and set aria-current="page" on the active one -->
+        <a href="/" aria-current="page">Accueil</a>
+        <a href="/features">Fonctionnalités</a>
+        <a href="/pricing">Tarifs</a>
+        <a href="/contact">Contact</a>
+      </nav>
     </div>
-    <div id="intro-en" style="display:none">
-      <p><strong>Purpose:</strong> PhysioStroop is a cognitive distraction tool inspired by the Stroop test. It displays <em>color words</em> in a <em>different ink color</em> (always incongruent) to engage attention and cognitive flexibility during rehabilitation tasks.</p>
-      <p><strong>How it works:</strong> choose language, mode (automatic or manual), session duration, and optional auto-restart. In <em>automatic</em> mode, each word shows for the selected time. In <em>manual</em> mode, tap anywhere to advance. The <strong>STOP</strong> button ends the session.</p>
-      <p><strong>Notes:</strong> no timing/response measurement; white background by default (optional dark mode); slight position jitter to maintain attention.</p>
-    </div>
-  </details>
-</section>
-    </p>
-    <!-- À propos de PhysioStroop -->
-<section id="about-app" class="group">
-  <details id="about-box">
-    <summary id="about-summary">À propos de PhysioStroop</summary>
-    <div id="about-fr">
-      <p><strong>Version :</strong> 1.0</p>
-      <p><strong>Auteur : S HERBAUD</strong> <em>Projet open-source PhysioStroop</em></p>
-      <p><strong>Licence :</strong> <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a> — utilisation non commerciale autorisée avec attribution.</p>
-      <p><a href="https://github.com/ton-nom-utilisateur/PhysioStroop" target="_blank">🔗 Voir le projet sur GitHub</a></p>
-    </div>
+  </header>
 
-    <div id="about-en" style="display:none">
-      <p><strong>Version:</strong> 1.0</p>
-      <p><strong>Author: S HERBAUD</strong> <em>PhysioStroop Open-Source Project</em></p>
-      <p><strong>License:</strong> <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a> — non-commercial use permitted with attribution.</p>
-      <p><a href="https://github.com/ton-nom-utilisateur/PhysioStroop" target="_blank">🔗 View project on GitHub</a></p>
-    </div>
-  </details>
-</section>
+  <main id="main" tabindex="-1">
+    <section class="hero container">
+      <h1><!-- Main heading: replace me --></h1>
+      <p><!-- Short intro (1–2 sentences): replace me --></p>
+      <p>
+        <a class="btn" href="/get-started" style="text-decoration:none; display:inline-block; padding:.75rem 1rem; border-radius:.75rem; background:#111; color:#fff;">Commencer</a>
+        <a class="btn" href="/docs" style="text-decoration:none; display:inline-block; padding:.75rem 1rem; border-radius:.75rem; border:1px solid #ddd;">Documentation</a>
+      </p>
+    </section>
+
+    <section class="container" aria-labelledby="features-title">
+      <h2 id="features-title">Points clés</h2>
+      <div class="grid">
+        <article class="card">
+          <h3><!-- Feature 1 --></h3>
+          <p><!-- Feature 1 description --></p>
+        </article>
+        <article class="card">
+          <h3><!-- Feature 2 --></h3>
+          <p><!-- Feature 2 description --></p>
+        </article>
+        <article class="card">
+          <h3><!-- Feature 3 --></h3>
+          <p><!-- Feature 3 description --></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" aria-labelledby="media-title">
+      <h2 id="media-title">Aperçu</h2>
+      <figure>
+        <img
+          src="/img/hero.webp"
+          alt="<!-- Concise, specific description of the image -->"
+          loading="lazy"
+          width="1200"
+          height="675"
+        />
+        <figcaption class="sr-only"><!-- Optional caption for screen readers --></figcaption>
+      </figure>
+    </section>
+
+    <section class="container" aria-labelledby="faq-title">
+      <h2 id="faq-title">Questions fréquentes</h2>
+      <details>
+        <summary><!-- Question 1 --></summary>
+        <div><!-- Answer 1 --></div>
+      </details>
+      <details>
+        <summary><!-- Question 2 --></summary>
+        <div><!-- Answer 2 --></div>
+      </details>
+    </section>
   </main>
 
-  <!-- Écran : COMPTE À REBOURS -->
-  <section id="screen-countdown" class="screen">
-    <div class="countdown" aria-live="polite">4</div>
-  </section>
-
-  <!-- Écran : SESSION -->
-  <section id="screen-session" class="screen">
-    <button id="stop-btn" class="stop" aria-label="Stop">STOP</button>
-    <div id="stimulus" class="word" role="img" aria-label="stimulus">ROUGE</div>
-  </section>
-
-  <!-- Écran : FIN -->
-  <section id="screen-end" class="screen">
-    <h2>Session terminée</h2>
-    <div id="end-autorestart" class="subtle"></div>
-    <div class="actions">
-      <button id="restart-btn" class="primary">Relancer</button>
-      <button id="menu-btn">Menu principal</button>
+  <footer role="contentinfo">
+    <div class="container">
+      <p>&copy; <span id="year"></span> <!-- Your Brand --> — Tous droits réservés.</p>
+      <nav aria-label="Liens de pied de page" class="nav">
+        <a href="/legal">Mentions légales</a>
+        <a href="/privacy">Confidentialité</a>
+        <a href="/terms">Conditions</a>
+        <a href="/accessibility">Accessibilité</a>
+      </nav>
     </div>
-  </section>
+  </footer>
 
-  <script type="module" src="js/app.js"></script>
+  <!-- Scripts (defer to avoid blocking) -->
+  <script defer>
+    // Small helpers; keep JS minimal
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Example: mark current nav link by URL (if you can rely on pathname)
+    const links = document.querySelectorAll('nav[aria-label="Navigation principale"] a');
+    links.forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname) {
+        a.setAttribute('aria-current', 'page');
+      }
+    });
+  </script>
 </body>
 </html>
