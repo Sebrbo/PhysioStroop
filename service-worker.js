@@ -1,6 +1,6 @@
-// service-worker.js — v2 (network-first pour HTML/navigations)
-const CACHE_NAME = "physiostroop-v2";
-const FILES_TO_CACHE = [
+// service-worker.js — v3 (navigate: network-first, assets: stale-while-revalidate)
+const CACHE_NAME = "physiostroop-v3";
+const ASSETS = [
   "./",
   "./index.html",
   "./css/style.css",
@@ -12,7 +12,7 @@ const FILES_TO_CACHE = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
@@ -29,25 +29,42 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // 🔹 Network-first pour les navigations (HTML, y compris ?lang=fr|en)
+  // 🔹 Navigations (HTML, ex: index.html?lang=en) → Network-first
   if (req.mode === "navigate") {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((c) => c.put(req, copy));
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(req, copy));
+          }
           return res;
         })
-        .catch(() =>
-          // si offline, on retombe sur ce qu’on a en cache
-          caches.match(req).then((r) => r || caches.match("./index.html"))
-        )
+        .catch(async () => {
+          // Offline → on essaie la requête exacte, sinon on retombe sur index.html
+          const cached = await caches.match(req);
+          return cached || caches.match("./index.html", { ignoreSearch: true });
+        })
     );
     return;
   }
 
-  // 🔹 Cache-first pour les assets (CSS/JS/icônes/manifest)
-  event.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req))
-  );
+  // 🔹 Assets (CSS/JS/icônes/manifest) → Stale-while-revalidate
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(req);
+    const networkPromise = fetch(req)
+      .then((res) => {
+        if (res && res.ok) cache.put(req, res.clone());
+        return res;
+      })
+      .catch(() => null);
+
+    // Si on a le cache, on sert tout de suite, et on met à jour en arrière-plan
+    if (cached) return cached;
+
+    // Sinon on attend le réseau (ou rien si offline)
+    const networkRes = await networkPromise;
+    return networkRes || new Response("", { status: 504, statusText: "Gateway Timeout" });
+  })());
 });
