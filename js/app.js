@@ -1,4 +1,4 @@
-// PhysioStroop — app.js
+// PhysioStroop — app.js (stable)
 
 const screens = {
   menu: document.getElementById('screen-menu'),
@@ -37,7 +37,6 @@ const UI_TEXT = {
     stim: "Affichage par mot (s)",
     autorestart: "Redémarrage auto après fin (s)",
     dark: "Mode sombre",
-    note: "Affichage incongruent uniquement. Texte en MAJUSCULES. Fond blanc (ou sombre).",
     stop: "STOP",
     endTitle: "Session terminée",
     restart: "Relancer",
@@ -52,7 +51,6 @@ const UI_TEXT = {
     stim: "Word display time (s)",
     autorestart: "Auto restart after end (s)",
     dark: "Dark mode",
-    note: "Incongruent display only. Uppercase text. White (or dark) background.",
     stop: "STOP",
     endTitle: "Session complete",
     restart: "Restart",
@@ -60,14 +58,8 @@ const UI_TEXT = {
   }
 };
 
-let timers = {
-  session: null,
-  countdown: null,
-  autorestart: null,
-};
-
-// --- Variable Wake Lock (empêche mise en veille) ---
-let wakeLock = null;
+let timers = { session: null, countdown: null, autorestart: null };
+let wakeLock = null; // Empêche la mise en veille
 
 function show(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
@@ -82,62 +74,80 @@ function applyUIText(lang) {
   const t = UI_TEXT[lang] || UI_TEXT.fr;
 
   // Mettre à jour les labels
-  document.querySelector('label[for="lang-select"]').textContent = t.lang;
-  document.querySelector('label[for="mode-select"]').textContent = t.mode;
-  document.querySelector('label[for="colors-select"]').textContent = t.colors;
-  document.querySelector('label[for="session-duration"]').textContent = t.session;
-  document.querySelector('label[for="stim-duration"]').textContent = t.stim;
-  document.querySelector('label[for="autorestart"]').textContent = t.autorestart;
-  document.querySelector('label[for="darkmode"]').textContent = t.dark;
+  const setText = (sel, text) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = text;
+  };
 
-  document.getElementById('start-btn').textContent = t.start;
-  document.getElementById('stop-btn').textContent = t.stop;
-  document.querySelector('#screen-end h2').textContent = t.endTitle;
-  document.getElementById('restart-btn').textContent = t.restart;
-  document.getElementById('menu-btn').textContent = t.menu;
+  setText('label[for="lang-select"]', t.lang);
+  setText('label[for="mode-select"]', t.mode);
+  setText('label[for="colors-select"]', t.colors);
+  setText('label[for="session-duration"]', t.session);
+  setText('label[for="stim-duration"]', t.stim);
+  setText('label[for="autorestart"]', t.autorestart);
+  setText('label[for="darkmode"]', t.dark);
+
+  const setById = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+
+  setById('start-btn', t.start);
+  setById('stop-btn', t.stop);
+  const endTitle = document.querySelector('#screen-end h2');
+  if (endTitle) endTitle.textContent = t.endTitle;
+  setById('restart-btn', t.restart);
+  setById('menu-btn', t.menu);
 }
 
-// --- Affichage de l'introduction et des notes selon la langue ---
+// --- Affichage de l'introduction, des notes et du bloc "À propos" selon la langue ---
 function applyIntro(lang) {
-  // --- Texte d'introduction (À propos / About) ---
-  const fr = document.getElementById('intro-fr');
-  const en = document.getElementById('intro-en');
-  const sum = document.getElementById('intro-summary');
-  if (fr && en && sum) {
-    if (lang === 'en') {
-      fr.style.display = 'none';
-      en.style.display = 'block';
-      sum.textContent = 'About';
-    } else {
-      fr.style.display = 'block';
-      en.style.display = 'none';
-      sum.textContent = 'À propos';
-    }
+  const isEn = (lang === 'en');
+
+  // Intro (À propos / About)
+  const introFr = document.getElementById('intro-fr');
+  const introEn = document.getElementById('intro-en');
+  const introSum = document.getElementById('intro-summary');
+  if (introFr && introEn && introSum) {
+    introFr.style.display = isEn ? 'none' : 'block';
+    introEn.style.display = isEn ? 'block' : 'none';
+    introSum.textContent = isEn ? 'About' : 'À propos';
   }
 
-  // --- Note d'installation (Add to Home Screen) ---
+  // Notes d’installation (FR/EN)
   const noteFr = document.querySelector('.install-note');
   const noteEn = document.querySelector('.install-note-en');
   if (noteFr && noteEn) {
-    if (lang === 'en') {
-      noteFr.style.display = 'none';
-      noteEn.style.display = 'block';
-    } else {
-      noteFr.style.display = 'block';
-      noteEn.style.display = 'none';
-    }
+    noteFr.style.display = isEn ? 'none' : 'block';
+    noteEn.style.display = isEn ? 'block' : 'none';
+  }
+
+  // Bloc "À propos de PhysioStroop" (FR/EN)
+  const aboutFr = document.getElementById('about-fr');
+  const aboutEn = document.getElementById('about-en');
+  const aboutSum = document.getElementById('about-summary');
+  if (aboutFr && aboutEn && aboutSum) {
+    aboutFr.style.display = isEn ? 'none' : 'block';
+    aboutEn.style.display = isEn ? 'block' : 'none';
+    aboutSum.textContent = isEn ? 'About PhysioStroop' : 'À propos de PhysioStroop';
   }
 }
 
 function onModeChange() {
+  if (!els.autoOnly) return;
   els.autoOnly.style.display = (els.mode.value === 'auto') ? 'flex' : 'none';
 }
 
 function detectLanguage() {
+  // 1) Priorité à ?lang=
   const params = new URLSearchParams(window.location.search);
   const qlang = (params.get('lang') || '').toLowerCase();
   if (qlang === 'fr' || qlang === 'en') return qlang;
-  if (els.lang.value !== 'auto') return els.lang.value;
+
+  // 2) Valeur sélectionnée
+  if (els.lang && els.lang.value !== 'auto') return els.lang.value;
+
+  // 3) Langue système
   const sys = (navigator.language || 'fr').slice(0,2).toLowerCase();
   return (sys === 'en') ? 'en' : 'fr';
 }
@@ -146,64 +156,49 @@ function detectLanguage() {
 (function syncLangSelectFromURL(){
   const params = new URLSearchParams(window.location.search);
   const qlang = (params.get('lang') || '').toLowerCase();
-  if (qlang === 'fr' || qlang === 'en') {
-    els.lang.value = qlang;
-  } else {
-    els.lang.value = 'auto';
+  if (els.lang) {
+    els.lang.value = (qlang === 'fr' || qlang === 'en') ? qlang : 'auto';
   }
 })();
 
-// -------- Navigation de base
-els.mode.addEventListener('change', onModeChange);
+// -------- Listeners de base
+if (els.mode) els.mode.addEventListener('change', onModeChange);
 onModeChange();
 
-// --- Appliquer les textes d'interface selon la langue ---
-
+// --- Appliquer les textes d'interface + blocs selon la langue (init unique)
 function initLanguageUI() {
   const lang = detectLanguage();
-  console.log('[PhysioStroop] Language =', lang);
   applyUIText(lang);
   applyIntro(lang);
 }
-
-// Lance l'init une première fois
 initLanguageUI();
 
-// Recharge la page quand on change la langue (pour garder ?lang= en URL)
-els.lang.addEventListener('change', () => {
-  const val = els.lang.value; // 'auto' | 'fr' | 'en'
-  const url = new URL(window.location.href);
-  if (val === 'auto') url.searchParams.delete('lang');
-  else url.searchParams.set('lang', val);
-  window.location.href = url.toString();
-});
+// --- Changement de langue (un seul listener, recharge pour garder ?lang=)
+if (els.lang) {
+  els.lang.addEventListener('change', () => {
+    const val = els.lang.value; // 'auto' | 'fr' | 'en'
+    const url = new URL(window.location.href);
+    if (val === 'auto') url.searchParams.delete('lang');
+    else url.searchParams.set('lang', val);
+    window.location.href = url.toString();
+  });
+}
 
+// --- Dark mode live
+if (els.dark) els.dark.addEventListener('change', () => applyDarkMode(els.dark.checked));
 
-// Recharge la page quand on change la langue
-els.lang.addEventListener('change', () => {
-  const val = els.lang.value;
-  const url = new URL(window.location.href);
-  if (val === 'auto') {
-    url.searchParams.delete('lang');
-  } else {
-    url.searchParams.set('lang', val);
-  }
-  window.location.href = url.toString();
-});
-
-els.dark.addEventListener('change', () => applyDarkMode(els.dark.checked));
-
-els.start.addEventListener('click', () => {
-  applyDarkMode(els.dark.checked);
+// --- Démarrage / navigation
+if (els.start) els.start.addEventListener('click', () => {
+  applyDarkMode(els.dark && els.dark.checked);
   startCountdown();
 });
 
-els.stop.addEventListener('click', stopSessionToEnd);
-els.restart.addEventListener('click', () => {
+if (els.stop) els.stop.addEventListener('click', stopSessionToEnd);
+if (els.restart) els.restart.addEventListener('click', () => {
   clearAutorestart();
   startCountdown();
 });
-els.menuBtn.addEventListener('click', () => {
+if (els.menuBtn) els.menuBtn.addEventListener('click', () => {
   clearAutorestart();
   show('menu');
 });
@@ -213,7 +208,7 @@ function startCountdown() {
   show('countdown');
   const seq = ['4','3','2','1','Go'];
   let i = 0;
-  els.countdown.textContent = seq[i];
+  if (els.countdown) els.countdown.textContent = seq[i];
   clearInterval(timers.countdown);
   timers.countdown = setInterval(() => {
     i++;
@@ -222,7 +217,7 @@ function startCountdown() {
       startSession();
       return;
     }
-    els.countdown.textContent = seq[i];
+    if (els.countdown) els.countdown.textContent = seq[i];
   }, 1000);
 }
 
@@ -233,19 +228,15 @@ let sessionTickTimer = null;
 function startSession() {
   show('session');
 
-  const total = clamp(parseFloat(els.sessionDuration.value) || 45, 5, 3600);
+  const total = clamp(parseFloat(els.sessionDuration?.value) || 45, 5, 3600);
   sessionEndAt = Date.now() + total * 1000;
 
-  // --- Empêcher la mise en veille de l’écran ---
+  // Empêcher la mise en veille
   if ('wakeLock' in navigator) {
     try {
       navigator.wakeLock.request('screen').then(lock => {
         wakeLock = lock;
-        console.log('🔒 Écran maintenu allumé');
-        wakeLock.addEventListener('release', () => {
-          console.log('🔓 Écran autorisé à s’éteindre');
-          wakeLock = null;
-        });
+        wakeLock.addEventListener('release', () => { wakeLock = null; });
       });
     } catch (err) {
       console.warn('WakeLock non disponible :', err);
@@ -267,29 +258,22 @@ function stopSessionToEnd() {
   clearInterval(timers.session);
   detachStimulusHandlers();
 
-  // --- Libérer le Wake Lock ---
+  // Libérer le Wake Lock
   if (wakeLock) {
-    try {
-      wakeLock.release();
-    } catch (err) {
-      console.warn('Erreur libération WakeLock :', err);
-    }
+    try { wakeLock.release(); } catch (err) { /* ignore */ }
     wakeLock = null;
   }
 
   show('end');
 
-  const delay = clamp(parseFloat(els.autorestart.value) || 0, 0, 30);
-  if (delay > 0) {
-    startAutorestartCountdown(delay);
-  } else {
-    els.endAutorestart.textContent = '';
-  }
+  const delay = clamp(parseFloat(els.autorestart?.value) || 0, 0, 30);
+  if (delay > 0) startAutorestartCountdown(delay);
+  else if (els.endAutorestart) els.endAutorestart.textContent = '';
 }
 
 function startAutorestartCountdown(sec) {
   let remain = Math.round(sec);
-  els.endAutorestart.textContent = `Redémarrage automatique dans ${remain}s…`;
+  if (els.endAutorestart) els.endAutorestart.textContent = `Redémarrage automatique dans ${remain}s…`;
   clearInterval(timers.autorestart);
   timers.autorestart = setInterval(() => {
     remain--;
@@ -297,24 +281,24 @@ function startAutorestartCountdown(sec) {
       clearInterval(timers.autorestart);
       startCountdown();
     } else {
-      els.endAutorestart.textContent = `Redémarrage automatique dans ${remain}s…`;
+      if (els.endAutorestart) els.endAutorestart.textContent = `Redémarrage automatique dans ${remain}s…`;
     }
   }, 1000);
 }
 
 function clearAutorestart() {
   clearInterval(timers.autorestart);
-  els.endAutorestart.textContent = '';
+  if (els.endAutorestart) els.endAutorestart.textContent = '';
 }
 
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
 // ------- Gestion du stimulus
 function attachStimulusHandlers() {
-  if (els.mode.value === 'manual') {
+  if (els.mode?.value === 'manual') {
     screens.session.addEventListener('click', onManualNext);
   } else {
-    const step = clamp(parseFloat(els.stimDuration.value) || 2, 0.5, 10);
+    const step = clamp(parseFloat(els.stimDuration?.value) || 2, 0.5, 10);
     sessionTickTimer = setInterval(onAutoNext, step * 1000);
   }
 }
@@ -372,7 +356,7 @@ let lastPair = null;
 
 function renderStimulusPlaceholder() {
   const lang = detectLanguage();
-  const count = parseInt(els.colors.value, 10);
+  const count = parseInt(els.colors?.value, 10) || 4;
   const set = COLOR_SETS[lang][count];
 
   const wordIndex = Math.floor(Math.random() * set.length);
@@ -390,12 +374,15 @@ function renderStimulusPlaceholder() {
   }
   lastPair = { word, color };
 
-  els.stim.textContent = word;
-  els.stim.style.color = color;
+  if (els.stim) {
+    els.stim.textContent = word;
+    els.stim.style.color = color;
 
-  const dx = (Math.random() * 20 - 10);
-  const dy = (Math.random() * 20 - 10);
-  els.stim.style.position = 'relative';
-  els.stim.style.left = dx + 'vw';
-  els.stim.style.top = dy + 'vh';
+    // Position aléatoire légère (±10%)
+    const dx = (Math.random() * 20 - 10);
+    const dy = (Math.random() * 20 - 10);
+    els.stim.style.position = 'relative';
+    els.stim.style.left = dx + 'vw';
+    els.stim.style.top = dy + 'vh';
+  }
 }
