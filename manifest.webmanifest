@@ -1,23 +1,25 @@
 {
+  "id": "/",
   "name": "PhysioStroop",
   "short_name": "PhysioStroop",
   "lang": "fr",
-  "start_url": "./index.html",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui", "browser"],
   "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  "description": "Test de Stroop interactif pour la rééducation cognitive. PhysioStroop est une application web bilingue, installable et utilisable hors ligne.",
+  "description": "Test de Stroop interactif pour la rééducation. Bilingue, installable, utilisable hors ligne.",
+  "categories": ["health", "education", "productivity"],
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Démarrer (auto)", "short_name": "Auto", "url": "./?start=1&mode=auto" },
+    { "name": "Démarrer (manuel)", "short_name": "Manuel", "url": "./?start=1&mode=manual" }
+  ],
+  "prefer_related_applications": false
 }
