@@ -95,3 +95,36 @@ body.dark .install-note, body.dark .install-note-en {
   background: rgba(255,255,255,0.06);
   border-color: #333;
 }
+
+#about-app details {
+  background: rgba(0,0,0,0.03);
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+
+#about-app summary {
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#about-app p {
+  margin: 6px 0;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+#about-app a {
+  color: var(--accent);
+  text-decoration: none;
+}
+#about-app a:hover {
+  text-decoration: underline;
+}
+
+body.dark #about-app details {
+  background: rgba(255,255,255,0.06);
+  border-color: #333;
+}
