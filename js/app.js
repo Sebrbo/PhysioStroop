@@ -320,34 +320,35 @@ function onAutoNext() {
 const COLOR_SETS = {
   fr: {
     4: [
-      { name: 'ROUGE', color: '#FF0000' },
-      { name: 'BLEU',  color: '#0000FF' },
-      { name: 'VERT',  color: '#008000' },
-      { name: 'JAUNE', color: '#CCAA00' },
+      { name: 'ROUGE',  color: '#D40000' },
+      { name: 'BLEU',   color: '#0033CC' },
+      { name: 'VERT',   color: '#007000' },
+      { name: 'JAUNE',  color: '#E5C300' },
     ],
     6: [
-      { name: 'ROUGE',  color: '#FF0000' },
-      { name: 'BLEU',   color: '#0000FF' },
-      { name: 'VERT',   color: '#008000' },
-      { name: 'JAUNE',  color: '#CCAA00' },
-      { name: 'ORANGE', color: '#FFA500' },
-      { name: 'VIOLET', color: '#800080' },
+      { name: 'ROUGE',  color: '#D40000' },
+      { name: 'BLEU',   color: '#0033CC' },
+      { name: 'VERT',   color: '#007000' },
+      { name: 'JAUNE',  color: '#E5C300' },
+      { name: 'ORANGE', color: '#FF7A00' },
+      { name: 'VIOLET', color: '#6A00A8' },
     ]
   },
+
   en: {
     4: [
-      { name: 'RED',    color: '#FF0000' },
-      { name: 'BLUE',   color: '#0000FF' },
-      { name: 'GREEN',  color: '#008000' },
-      { name: 'YELLOW', color: '#CCAA00' },
+      { name: 'RED',    color: '#D40000' },
+      { name: 'BLUE',   color: '#0033CC' },
+      { name: 'GREEN',  color: '#007000' },
+      { name: 'YELLOW', color: '#E5C300' },
     ],
     6: [
-      { name: 'RED',    color: '#FF0000' },
-      { name: 'BLUE',   color: '#0000FF' },
-      { name: 'GREEN',  color: '#008000' },
-      { name: 'YELLOW', color: '#CCAA00' },
-      { name: 'ORANGE', color: '#FFA500' },
-      { name: 'PURPLE', color: '#800080' },
+      { name: 'RED',    color: '#D40000' },
+      { name: 'BLUE',   color: '#0033CC' },
+      { name: 'GREEN',  color: '#007000' },
+      { name: 'YELLOW', color: '#E5C300' },
+      { name: 'ORANGE', color: '#FF7A00' },
+      { name: 'PURPLE', color: '#6A00A8' },
     ]
   }
 };
