@@ -323,29 +323,29 @@ const COLOR_SETS = {
       { name: 'ROUGE', color: '#FF0000' },
       { name: 'BLEU',  color: '#0000FF' },
       { name: 'VERT',  color: '#008000' },
-      { name: 'JAUNE', color: '#FFFF00' },
+      { name: 'JAUNE', color: '#CCAA00' },
     ],
     6: [
       { name: 'ROUGE',  color: '#FF0000' },
       { name: 'BLEU',   color: '#0000FF' },
       { name: 'VERT',   color: '#008000' },
-      { name: 'JAUNE',  color: '#FFFF00' },
+      { name: 'JAUNE',  color: '#CCAA00' },
       { name: 'ORANGE', color: '#FFA500' },
       { name: 'VIOLET', color: '#800080' },
     ]
   },
   en: {
     4: [
-      { name: 'RED',   color: '#FF0000' },
-      { name: 'BLUE',  color: '#0000FF' },
-      { name: 'GREEN', color: '#008000' },
-      { name: 'YELLOW',color: '#FFFF00' },
+      { name: 'RED',    color: '#FF0000' },
+      { name: 'BLUE',   color: '#0000FF' },
+      { name: 'GREEN',  color: '#008000' },
+      { name: 'YELLOW', color: '#CCAA00' },
     ],
     6: [
       { name: 'RED',    color: '#FF0000' },
       { name: 'BLUE',   color: '#0000FF' },
       { name: 'GREEN',  color: '#008000' },
-      { name: 'YELLOW', color: '#FFFF00' },
+      { name: 'YELLOW', color: '#CCAA00' },
       { name: 'ORANGE', color: '#FFA500' },
       { name: 'PURPLE', color: '#800080' },
     ]
