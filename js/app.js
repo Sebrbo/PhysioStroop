@@ -323,13 +323,13 @@ const COLOR_SETS = {
       { name: 'ROUGE',  color: '#D40000' },
       { name: 'BLEU',   color: '#0033CC' },
       { name: 'VERT',   color: '#007000' },
-      { name: 'JAUNE',  color: '#E5C300' },
+      { name: 'JAUNE',  color: '#E8DA00' },
     ],
     6: [
       { name: 'ROUGE',  color: '#D40000' },
       { name: 'BLEU',   color: '#0033CC' },
       { name: 'VERT',   color: '#007000' },
-      { name: 'JAUNE',  color: '#E5C300' },
+      { name: 'JAUNE',  color: '#E8DA00' },
       { name: 'ORANGE', color: '#FF7A00' },
       { name: 'VIOLET', color: '#6A00A8' },
     ]
@@ -340,13 +340,13 @@ const COLOR_SETS = {
       { name: 'RED',    color: '#D40000' },
       { name: 'BLUE',   color: '#0033CC' },
       { name: 'GREEN',  color: '#007000' },
-      { name: 'YELLOW', color: '#E5C300' },
+      { name: 'YELLOW', color: '#E8DA00' },
     ],
     6: [
       { name: 'RED',    color: '#D40000' },
       { name: 'BLUE',   color: '#0033CC' },
       { name: 'GREEN',  color: '#007000' },
-      { name: 'YELLOW', color: '#E5C300' },
+      { name: 'YELLOW', color: '#E8DA00' },
       { name: 'ORANGE', color: '#FF7A00' },
       { name: 'PURPLE', color: '#6A00A8' },
     ]
