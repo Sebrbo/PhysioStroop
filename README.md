@@ -28,7 +28,7 @@ L’objectif n’est pas de mesurer les temps de réaction, mais de stimuler **l
 HTML5 · CSS3 · JavaScript (vanilla)
 
 ### Installation rapide
-1. Ouvrez la page hébergée (GitHub Pages ou autre serveur).  
+1. Ouvrez la page hébergée GitHub Pages  
 2. Sur iPad/iPhone/Android : **Ajouter à l’écran d’accueil** pour installer la Web App.  
 3. Une fois installée, fonctionne **hors ligne**.
 
@@ -71,7 +71,7 @@ It does not measure reaction times; it aims to stimulate **attention** and **cog
 HTML5 · CSS3 · Vanilla JavaScript
 
 ### Quick start
-1. Open the hosted page (GitHub Pages or any server).  
+1. Open the hosted page GitHub Pages 
 2. On iPad/iPhone/Android: **Add to Home Screen** to install the Web App.  
 3. Runs **offline** once installed.
 
