@@ -91,6 +91,10 @@ HTML5 · CSS3 · JavaScript (vanilla)
 Les contributions sont bienvenues (issues, pull requests). Merci de rester aligné avec l’objectif non clinique.
 
 ### Licence
-**CC BY-NC 4.0** — utilisation non commerciale avec attribution.  
-➡️ Détails dans le fichier `LICENSE`.
+- **Code source :** [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)  
+  → Utilisation, modification et distribution **autorisées uniquement à des fins non commerciales**.
 
+- **Assets (icônes, images, design) :** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)  
+  → Utilisation et partage non commerciaux autorisés **avec attribution**.
+
+© 2026 S. Herbaud — Projet *PhysioStroop*
