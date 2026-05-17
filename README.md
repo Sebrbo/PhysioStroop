@@ -1,49 +1,6 @@
 # PhysioStroop
-Version rééducative et interactive du test de Stroop / A therapeutic adaptation of the classic Stroop test
-*(Bilingual README — Français / English)*
-
----
-
-## 🇫🇷 Version française
-
-### Objectif
-**PhysioStroop** est une application web open-source inspirée du **test de Stroop** classique, conçue comme **outil de distraction cognitive** pour accompagner les exercices de rééducation.  
-L’objectif n’est pas de mesurer les temps de réaction, mais de stimuler **l’attention** et la **flexibilité cognitive** pendant des activités motrices ou cognitives.
-
-> ⚠️ **Note** : PhysioStroop est une adaptation libre inspirée du test de Stroop classique.  
-> Cette application n’a pas pour vocation de réaliser un diagnostic ni une mesure clinique, mais d’offrir un support d’exercices cognitifs et attentionnels.
-
-### Fonctionnalités principales
-- Deux modes : **Automatique** (changement toutes les X s) et **Manuel** (toucher pour suivant)
-- **Incongruent uniquement** (mot et couleur toujours différents)
-- **Deux jeux de couleurs** : standard (rouge, bleu, vert, jaune) + étendu (orange, violet)
-- **Deux langues** : Français / Anglais (auto + choix manuel)
-- **Fond blanc** ou **mode sombre**
-- **Paramètres** : durée totale (défaut 45 s), affichage par stimulus (défaut 2 s, 0,5–10 s), redémarrage auto (défaut 15 s, 0–30 s)
-- **Position du mot** légèrement variable, **STOP** discret
-- **PWA** : iPad, iPhone, Android, desktop, fonctionnement **hors ligne** après installation
-- **Sans dépendances externes** (HTML, CSS, JS)
-
-### Technologies
-HTML5 · CSS3 · JavaScript (vanilla)
-
-### Installation rapide
-1. Ouvrez la page hébergée GitHub Pages  
-2. Sur iPad/iPhone/Android : **Ajouter à l’écran d’accueil** pour installer la Web App.  
-3. Une fois installée, fonctionne **hors ligne**.
-
-### Feuille de route (exemples)
-- [ ] Préférences de thème (clair/sombre) dans le menu  
-- [ ] PWA manifest + service worker (cache hors ligne)  
-- [ ] Wake Lock pendant la session  
-- [ ] Export local des paramètres (JSON)
-
-### Contributions
-Les contributions sont bienvenues (issues, pull requests). Merci de rester aligné avec l’objectif non clinique.
-
-### Licence
-**CC BY-NC 4.0** — utilisation non commerciale avec attribution.  
-➡️ Détails dans le fichier `LICENSE`.
+A therapeutic adaptation of the classic Stroop test / Version rééducative et interactive du test de Stroop
+*(Bilingual README — English / Français)*
 
 ---
 
@@ -92,4 +49,48 @@ Issues and PRs are welcome. Please keep the non-clinical scope in mind.
 - **Assets (icônes, images, design) :** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)  
   → Utilisation et partage non commerciaux autorisés **avec attribution**.
 
-© 2025 S. Herbaud — Projet *PhysioStroop*
+© 2026 S. Herbaud — Projet *PhysioStroop*
+
+---
+
+## 🇫🇷 Version française
+
+### Objectif
+**PhysioStroop** est une application web open-source inspirée du **test de Stroop** classique, conçue comme **outil de distraction cognitive** pour accompagner les exercices de rééducation.  
+L’objectif n’est pas de mesurer les temps de réaction, mais de stimuler **l’attention** et la **flexibilité cognitive** pendant des activités motrices ou cognitives.
+
+> ⚠️ **Note** : PhysioStroop est une adaptation libre inspirée du test de Stroop classique.  
+> Cette application n’a pas pour vocation de réaliser un diagnostic ni une mesure clinique, mais d’offrir un support d’exercices cognitifs et attentionnels.
+
+### Fonctionnalités principales
+- Deux modes : **Automatique** (changement toutes les X s) et **Manuel** (toucher pour suivant)
+- **Incongruent uniquement** (mot et couleur toujours différents)
+- **Deux jeux de couleurs** : standard (rouge, bleu, vert, jaune) + étendu (orange, violet)
+- **Deux langues** : Français / Anglais (auto + choix manuel)
+- **Fond blanc** ou **mode sombre**
+- **Paramètres** : durée totale (défaut 45 s), affichage par stimulus (défaut 2 s, 0,5–10 s), redémarrage auto (défaut 15 s, 0–30 s)
+- **Position du mot** légèrement variable, **STOP** discret
+- **PWA** : iPad, iPhone, Android, desktop, fonctionnement **hors ligne** après installation
+- **Sans dépendances externes** (HTML, CSS, JS)
+
+### Technologies
+HTML5 · CSS3 · JavaScript (vanilla)
+
+### Installation rapide
+1. Ouvrez la page hébergée GitHub Pages  
+2. Sur iPad/iPhone/Android : **Ajouter à l’écran d’accueil** pour installer la Web App.  
+3. Une fois installée, fonctionne **hors ligne**.
+
+### Feuille de route (exemples)
+- [ ] Préférences de thème (clair/sombre) dans le menu  
+- [ ] PWA manifest + service worker (cache hors ligne)  
+- [ ] Wake Lock pendant la session  
+- [ ] Export local des paramètres (JSON)
+
+### Contributions
+Les contributions sont bienvenues (issues, pull requests). Merci de rester aligné avec l’objectif non clinique.
+
+### Licence
+**CC BY-NC 4.0** — utilisation non commerciale avec attribution.  
+➡️ Détails dans le fichier `LICENSE`.
+
