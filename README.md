@@ -1,100 +1,76 @@
 # PhysioStroop
-A therapeutic adaptation of the classic Stroop test / Version rééducative et interactive du test de Stroop
-*(Bilingual README — English / Français)*
 
----
+PhysioStroop is a static, dependency-free web app inspired by the Stroop test. It is designed as a rehabilitation and exercise support tool for attention, inhibition, visual discrimination and dual-task situations.
 
-## 🇬🇧 English version
+PhysioStroop is not a diagnostic or clinical measurement tool. It supports exercise and rehabilitation work, but it does not replace clinical reasoning or professional judgement.
 
-### Purpose
-**PhysioStroop** is an open-source web app inspired by the **classic Stroop test**, designed as a **cognitive distraction tool** to support rehabilitation exercises.  
-It does not measure reaction times; it aims to stimulate **attention** and **cognitive flexibility** during physical or mental activities.
+## Current Version
 
-> ⚠️ **Note:** PhysioStroop is a freely adapted version inspired by the classic Stroop test.  
-> It is **not intended for diagnostic or clinical measurement**, but as a **support tool for cognitive and attentional exercises**.
+- Visible app version: `1.0`
+- Current service worker cache: `physiostroop-v3`
+- CSS and JavaScript are not yet versioned with query strings in `index.html`; cache-busting/versioned assets should be handled in a dedicated PWA/cache PR.
 
-### Main features
-- Two modes: **Automatic** (changes every X s) and **Manual** (tap for next)
-- **Incongruent only** (word and ink color never match)
-- **Two color sets**: standard (red, blue, green, yellow) + extended (orange, purple)
-- **Two languages**: French / English (auto + manual switch)
-- **White** or **dark** background
-- **Parameters**: total duration (default 45 s), per-stimulus display (default 2 s, 0.5–10 s), auto-restart (default 15 s, 0–30 s)
-- Slightly randomized **word position**, discreet **STOP** button
-- **PWA**: iPad, iPhone, Android, desktop, **offline** after install
-- **No external dependencies** (HTML, CSS, JS)
+## Project Structure
 
-### Built with
-HTML5 · CSS3 · Vanilla JavaScript
+- `index.html`: application shell, menu, countdown screen, exercise screen, end screen, install/help/about content and service worker registration.
+- `css/style.css`: visual layout, responsive basics, buttons, exercise word styling, dark mode and informational sections.
+- `js/app.js`: UI language handling, screen navigation, countdown, session lifecycle, Stroop stimulus generation, manual/automatic modes, autorestart and Wake Lock.
+- `service-worker.js`: PWA offline cache with `CACHE_NAME = "physiostroop-v3"`.
+- `manifest.webmanifest`: installable PWA metadata, icons and app shortcuts.
+- `icons/`: PWA icons.
+- `README.md`: project documentation.
+- `LICENCE`: licence information for code and assets.
+- `CODEX.md`: contribution notes and DOM/JS contract for future small PRs.
 
-### Quick start
-1. Open the hosted page GitHub Pages 
-2. On iPad/iPhone/Android: **Add to Home Screen** to install the Web App.  
-3. Runs **offline** once installed.
+## Features
 
-### Roadmap (examples)
-- [ ] Theme preferences (light/dark) in menu  
-- [ ] PWA manifest + service worker (offline cache)  
-- [ ] Wake Lock during sessions  
-- [ ] Local export of settings (JSON)
+- Automatic mode: stimuli advance after the configured display duration.
+- Manual mode: tapping the session screen advances to the next stimulus.
+- 4-color set: red, blue, green, yellow.
+- 6-color set: red, blue, green, yellow, orange, purple/violet.
+- French and English interface, with automatic language detection and `?lang=fr` / `?lang=en` support.
+- Always-incongruent Stroop logic: the written word and ink color never match.
+- Countdown before each session: `4`, `3`, `2`, `1`, `Go`.
+- Configurable session duration.
+- Optional autorestart after the end screen.
+- Optional dark mode.
+- PWA install support and offline use after caching.
+- Wake Lock request during sessions when supported by the browser.
 
-### Contributing
-Issues and PRs are welcome. Please keep the non-clinical scope in mind.
+## PWA and Cache Notes
 
-### Licence
+The app currently registers `service-worker.js` from `index.html`. The service worker precaches the app shell and uses:
 
-- **Code source :** [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)  
-  → Utilisation, modification et distribution **autorisées uniquement à des fins non commerciales**.
+- network-first behavior for navigations;
+- stale-while-revalidate behavior for assets.
 
-- **Assets (icônes, images, design) :** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)  
-  → Utilisation et partage non commerciaux autorisés **avec attribution**.
+When changing `index.html`, `css/style.css`, `js/app.js`, `manifest.webmanifest`, icons or `service-worker.js`, verify whether `CACHE_NAME` should be incremented. Do not mix unrelated UI changes with cache/versioning changes when a small dedicated PR is possible.
 
-© 2026 S. Herbaud — Projet *PhysioStroop*
+## Roadmap
 
----
+Already present:
 
-## 🇫🇷 Version française
+- PWA manifest and service worker for offline use.
+- Wake Lock request during sessions when available.
+- Automatic and manual modes.
+- French/English UI.
+- 4-color and 6-color sets.
+- Dark mode.
 
-### Objectif
-**PhysioStroop** est une application web open-source inspirée du **test de Stroop** classique, conçue comme **outil de distraction cognitive** pour accompagner les exercices de rééducation.  
-L’objectif n’est pas de mesurer les temps de réaction, mais de stimuler **l’attention** et la **flexibilité cognitive** pendant des activités motrices ou cognitives.
+Possible future small PRs:
 
-> ⚠️ **Note** : PhysioStroop est une adaptation libre inspirée du test de Stroop classique.  
-> Cette application n’a pas pour vocation de réaliser un diagnostic ni une mesure clinique, mais d’offrir un support d’exercices cognitifs et attentionnels.
+- Persist user preferences locally.
+- Improve accessibility announcements for changing stimuli.
+- Improve focus management between screens.
+- Add explicit CSS/JS asset versioning in `index.html`.
+- Improve mobile layout and stimulus sizing.
+- Document manual test scenarios more thoroughly.
 
-### Fonctionnalités principales
-- Deux modes : **Automatique** (changement toutes les X s) et **Manuel** (toucher pour suivant)
-- **Incongruent uniquement** (mot et couleur toujours différents)
-- **Deux jeux de couleurs** : standard (rouge, bleu, vert, jaune) + étendu (orange, violet)
-- **Deux langues** : Français / Anglais (auto + choix manuel)
-- **Fond blanc** ou **mode sombre**
-- **Paramètres** : durée totale (défaut 45 s), affichage par stimulus (défaut 2 s, 0,5–10 s), redémarrage auto (défaut 15 s, 0–30 s)
-- **Position du mot** légèrement variable, **STOP** discret
-- **PWA** : iPad, iPhone, Android, desktop, fonctionnement **hors ligne** après installation
-- **Sans dépendances externes** (HTML, CSS, JS)
+## Licence
 
-### Technologies
-HTML5 · CSS3 · JavaScript (vanilla)
+- Source code: [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
+- Assets and non-code contents: [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
 
-### Installation rapide
-1. Ouvrez la page hébergée GitHub Pages  
-2. Sur iPad/iPhone/Android : **Ajouter à l’écran d’accueil** pour installer la Web App.  
-3. Une fois installée, fonctionne **hors ligne**.
+Non-commercial use, modification and distribution are allowed according to the terms of the respective licences.
 
-### Feuille de route (exemples)
-- [ ] Préférences de thème (clair/sombre) dans le menu  
-- [ ] PWA manifest + service worker (cache hors ligne)  
-- [ ] Wake Lock pendant la session  
-- [ ] Export local des paramètres (JSON)
-
-### Contributions
-Les contributions sont bienvenues (issues, pull requests). Merci de rester aligné avec l’objectif non clinique.
-
-### Licence
-- **Code source :** [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)  
-  → Utilisation, modification et distribution **autorisées uniquement à des fins non commerciales**.
-
-- **Assets (icônes, images, design) :** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)  
-  → Utilisation et partage non commerciaux autorisés **avec attribution**.
-
-© 2026 S. Herbaud — Projet *PhysioStroop*
+© 2026 S. Herbaud — PhysioStroop project.
