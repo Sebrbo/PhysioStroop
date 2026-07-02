@@ -234,15 +234,20 @@ function startSession() {
   // Empêcher la mise en veille
   if ('wakeLock' in navigator) {
     try {
-      navigator.wakeLock.request('screen').then(lock => {
-        wakeLock = lock;
-        wakeLock.addEventListener('release', () => { wakeLock = null; });
-      });
+      navigator.wakeLock.request('screen')
+        .then(lock => {
+          wakeLock = lock;
+          wakeLock.addEventListener('release', () => { wakeLock = null; });
+        })
+        .catch(err => {
+          console.warn('WakeLock non disponible :', err);
+        });
     } catch (err) {
       console.warn('WakeLock non disponible :', err);
     }
   }
 
+  detachStimulusHandlers();
   attachStimulusHandlers();
   renderStimulusPlaceholder();
 
@@ -256,6 +261,7 @@ function startSession() {
 
 function stopSessionToEnd() {
   clearInterval(timers.session);
+  timers.session = null;
   detachStimulusHandlers();
 
   // Libérer le Wake Lock
@@ -279,6 +285,7 @@ function startAutorestartCountdown(sec) {
     remain--;
     if (remain <= 0) {
       clearInterval(timers.autorestart);
+      timers.autorestart = null;
       startCountdown();
     } else {
       if (els.endAutorestart) els.endAutorestart.textContent = `Redémarrage automatique dans ${remain}s…`;
@@ -288,6 +295,7 @@ function startAutorestartCountdown(sec) {
 
 function clearAutorestart() {
   clearInterval(timers.autorestart);
+  timers.autorestart = null;
   if (els.endAutorestart) els.endAutorestart.textContent = '';
 }
 
