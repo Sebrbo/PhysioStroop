@@ -1,10 +1,10 @@
-// service-worker.js — v3 (navigate: network-first, assets: stale-while-revalidate)
-const CACHE_NAME = "physiostroop-v3";
+// service-worker.js — v4 (navigate: network-first, assets: stale-while-revalidate)
+const CACHE_NAME = "physiostroop-v4";
 const ASSETS = [
   "./",
   "./index.html",
-  "./css/style.css",
-  "./js/app.js",
+  "./css/style.css?v=1",
+  "./js/app.js?v=4",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
