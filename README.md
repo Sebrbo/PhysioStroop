@@ -7,15 +7,15 @@ PhysioStroop is not a diagnostic or clinical measurement tool. It supports exerc
 ## Current Version
 
 - Visible app version: `1.0`
-- Current service worker cache: `physiostroop-v3`
-- CSS and JavaScript are not yet versioned with query strings in `index.html`; cache-busting/versioned assets should be handled in a dedicated PWA/cache PR.
+- Current service worker cache: `physiostroop-v4`
+- Versioned assets loaded by `index.html`: `css/style.css?v=1` and `js/app.js?v=4`.
 
 ## Project Structure
 
 - `index.html`: application shell, menu, countdown screen, exercise screen, end screen, install/help/about content and service worker registration.
 - `css/style.css`: visual layout, responsive basics, buttons, exercise word styling, dark mode and informational sections.
 - `js/app.js`: UI language handling, screen navigation, countdown, session lifecycle, Stroop stimulus generation, manual/automatic modes, autorestart and Wake Lock.
-- `service-worker.js`: PWA offline cache with `CACHE_NAME = "physiostroop-v3"`.
+- `service-worker.js`: PWA offline cache with `CACHE_NAME = "physiostroop-v4"`.
 - `manifest.webmanifest`: installable PWA metadata, icons and app shortcuts.
 - `icons/`: PWA icons.
 - `README.md`: project documentation.
@@ -44,7 +44,12 @@ The app currently registers `service-worker.js` from `index.html`. The service w
 - network-first behavior for navigations;
 - stale-while-revalidate behavior for assets.
 
-When changing `index.html`, `css/style.css`, `js/app.js`, `manifest.webmanifest`, icons or `service-worker.js`, verify whether `CACHE_NAME` should be incremented. Do not mix unrelated UI changes with cache/versioning changes when a small dedicated PR is possible.
+Current versioned asset URLs:
+
+- `css/style.css?v=1`
+- `js/app.js?v=4`
+
+When changing `index.html`, `css/style.css` or `js/app.js`, increment `CACHE_NAME` and keep the asset query strings aligned. When changing `manifest.webmanifest`, icons or `service-worker.js`, verify whether `CACHE_NAME` should also be incremented. Do not mix unrelated UI changes with cache/versioning changes when a small dedicated PR is possible.
 
 ## Roadmap
 
@@ -62,7 +67,7 @@ Possible future small PRs:
 - Persist user preferences locally.
 - Improve accessibility announcements for changing stimuli.
 - Improve focus management between screens.
-- Add explicit CSS/JS asset versioning in `index.html`.
+- Keep CSS/JS asset versioning aligned with future app changes.
 - Improve mobile layout and stimulus sizing.
 - Document manual test scenarios more thoroughly.
 
