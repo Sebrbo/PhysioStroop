@@ -56,65 +56,23 @@
       <input id="autorestart" type="number" min="0" max="30" step="1" value="15" />
     </section>
 
-    <section class="group row">
-      <label for="darkmode">Mode sombre</label>
-      <input id="darkmode" type="checkbox" />
-    </section>
-
     <button id="start-btn" class="primary">Démarrer</button>
 
-    <!-- Informations d'installation (FR/EN) -->
-    <section id="install-infos">
-      <p class="install-note">
-        📱 <strong>Astuce :</strong> vous pouvez <strong>ajouter PhysioStroop sur votre écran d’accueil</strong> comme une application.<br>
-        – <strong>Sur iPhone / iPad (Safari)</strong> : appuyez sur le bouton <em>Partager</em> puis choisissez <em>“Ajouter à l’écran d’accueil”</em>.<br>
-        – <strong>Sur Android (Chrome)</strong> : ouvrez le menu ⋮ puis choisissez <em>“Installer l’application”</em> ou <em>“Ajouter à l’écran d’accueil”</em>.<br><br>
-        ⚡️ Une fois installée, <strong>l’application fonctionne sans connexion Internet</strong> (mode <em>hors ligne</em>).
-      </p>
-
-      <p class="install-note-en" style="display:none">
-        📱 <strong>Tip:</strong> you can <strong>add PhysioStroop to your home screen</strong> just like a native app.<br>
-        – <strong>On iPhone / iPad (Safari)</strong>: tap the <em>Share</em> button, then choose <em>“Add to Home Screen”</em>.<br>
-        – <strong>On Android (Chrome)</strong>: open the ⋮ menu, then tap <em>“Install App”</em> or <em>“Add to Home Screen.”</em><br><br>
-        ⚡️ Once installed, <strong>the app works even without an Internet connection</strong> (offline mode).
-      </p>
-    </section>
-
-    <!-- Aide / À propos (texte explicatif FR/EN) -->
+    <!-- Informations utiles (FR/EN) -->
     <section id="intro" class="group">
-      <details id="intro-box" open>
-        <summary id="intro-summary">À propos / About</summary>
+      <details id="intro-box">
+        <summary id="intro-summary">Informations</summary>
         <div id="intro-fr">
-          <p><strong>But :</strong> PhysioStroop est un outil de distraction cognitive inspiré du test de Stroop. Il affiche des <em>mots de couleur</em> dans une <em>couleur d’encre différente</em> (toujours incongruent) afin de solliciter l’attention et la flexibilité cognitive pendant des exercices de rééducation.</p>
-          <p><strong>Fonctionnement :</strong> choisissez la langue, le mode (automatique ou manuel), la durée de la session et, si besoin, le redémarrage automatique. En mode <em>automatique</em>, chaque mot s’affiche pendant le temps défini. En mode <em>manuel</em>, touchez l’écran pour passer au suivant. Le bouton <strong>STOP</strong> interrompt la session.</p>
-          <p><strong>Remarques :</strong> pas de mesure de temps/réponses ; fond blanc par défaut (mode sombre optionnel) ; position du mot légèrement variable pour maintenir l’attention.</p>
+          <p>PhysioStroop propose des exercices Stroop incongruents pour travailler l’attention, l’inhibition et la flexibilité cognitive.</p>
+          <p>Une fois installée, l’application peut fonctionner hors ligne.</p>
+          <p><a href="https://github.com/Sebrbo/PhysioStroop" target="_blank" rel="noopener">Projet GitHub</a></p>
+          <p><strong>Licences :</strong> code PolyForm Noncommercial 1.0.0 ; assets et contenus CC BY-NC 4.0.</p>
         </div>
         <div id="intro-en" style="display:none">
-          <p><strong>Purpose:</strong> PhysioStroop is a cognitive distraction tool inspired by the Stroop test. It displays <em>color words</em> in a <em>different ink color</em> (always incongruent) to engage attention and cognitive flexibility during rehabilitation tasks.</p>
-          <p><strong>How it works:</strong> choose language, mode (automatic or manual), session duration, and optional auto-restart. In <em>automatic</em> mode, each word shows for the selected time. In <em>manual</em> mode, tap anywhere to advance. The <strong>STOP</strong> button ends the session.</p>
-          <p><strong>Notes:</strong> no timing/response measurement; white background by default (optional dark mode); slight position jitter to maintain attention.</p>
-        </div>
-      </details>
-    </section>
-
-    <!-- À propos de PhysioStroop -->
-    <section id="about-app" class="group">
-      <details id="about-box">
-        <summary id="about-summary">À propos de PhysioStroop</summary>
-        <div id="about-fr">
-          <p><strong>Version :</strong> 1.0</p>
-          <p><strong>Auteur :</strong> S HERBAUD — <em>Projet open-source PhysioStroop</em></p>
-          <p><strong>Licence code :</strong> <a href="https://polyformproject.org/licenses/noncommercial/1.0.0/" target="_blank" rel="noopener">PolyForm Noncommercial 1.0.0</a>.</p>
-          <p><strong>Licence assets / contenus :</strong> <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a> — utilisation non commerciale autorisée avec attribution.</p>
-          <p><a href="https://github.com/Sebrbo/PhysioStroop" target="_blank" rel="noopener">🔗 Voir le projet sur GitHub</a></p>
-        </div>
-
-        <div id="about-en" style="display:none">
-          <p><strong>Version:</strong> 1.0</p>
-          <p><strong>Author:</strong> S HERBAUD — <em>PhysioStroop Open-Source Project</em></p>
-          <p><strong>Code license:</strong> <a href="https://polyformproject.org/licenses/noncommercial/1.0.0/" target="_blank" rel="noopener">PolyForm Noncommercial 1.0.0</a>.</p>
-          <p><strong>Assets / content license:</strong> <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a> — non-commercial use permitted with attribution.</p>
-          <p><a href="https://github.com/Sebrbo/PhysioStroop" target="_blank" rel="noopener">🔗 View project on GitHub</a></p>
+          <p>PhysioStroop offers incongruent Stroop exercises to train attention, inhibition and cognitive flexibility.</p>
+          <p>Once installed, the app can work offline.</p>
+          <p><a href="https://github.com/Sebrbo/PhysioStroop" target="_blank" rel="noopener">GitHub project</a></p>
+          <p><strong>Licenses:</strong> code PolyForm Noncommercial 1.0.0; assets and content CC BY-NC 4.0.</p>
         </div>
       </details>
     </section>
