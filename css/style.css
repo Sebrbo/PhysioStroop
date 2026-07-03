@@ -189,6 +189,7 @@ button.stop {
 
 #screen-session.active {
   background: linear-gradient(180deg, #f7faff, #e6edf7);
+  overflow: hidden;
 }
 
 .countdown {
@@ -199,8 +200,13 @@ button.stop {
 
 .word {
   font-weight: 850;
-  font-size: 14vh;
+  width: max-content;
+  max-width: 76vw;
+  font-size: clamp(3.25rem, min(15vh, 13vw), 11rem);
+  line-height: 1;
+  text-align: center;
   text-transform: uppercase;
+  white-space: nowrap;
   user-select: none;
   background: transparent;
   filter: none;
@@ -208,6 +214,13 @@ button.stop {
   opacity: 1;
   -webkit-text-stroke: 0.018em rgba(7, 20, 38, 0.42);
   paint-order: stroke fill;
+}
+
+@media (orientation: landscape) {
+  .word {
+    max-width: 78vw;
+    font-size: clamp(4.5rem, min(32vh, 13vw), 13rem);
+  }
 }
 
 .subtle {
