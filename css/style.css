@@ -68,6 +68,22 @@ button.stop:hover { opacity: 1; }
 .subtle { color: var(--muted); margin: 12px 0; min-height: 24px; }
 .actions { display: flex; gap: 12px; justify-content: center; }
 
+#screen-end.active {
+  flex-direction: column;
+  gap: 14px;
+}
+#screen-end h2 {
+  margin-bottom: 0;
+}
+#end-autorestart {
+  line-height: 1.4;
+  max-width: min(100%, 420px);
+}
+#screen-end .actions {
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
 .language-control {
   margin-top: 18px;
   padding-top: 12px;
@@ -97,5 +113,12 @@ button.stop:hover { opacity: 1; }
   input[type="number"], select {
     width: 100%;
     max-width: none;
+  }
+
+  #screen-end .actions {
+    width: 100%;
+  }
+  #screen-end .actions button {
+    flex: 1 1 180px;
   }
 }
