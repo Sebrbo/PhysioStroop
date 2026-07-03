@@ -7,15 +7,15 @@ PhysioStroop is not a diagnostic or clinical measurement tool. It supports exerc
 ## Current Version
 
 - Visible app version: `1.0`
-- Current service worker cache: `physiostroop-v4`
-- Versioned assets loaded by `index.html`: `css/style.css?v=1` and `js/app.js?v=4`.
+- Current service worker cache: `physiostroop-v5`
+- Versioned assets loaded by `index.html`: `css/style.css?v=2` and `js/app.js?v=5`.
 
 ## Project Structure
 
 - `index.html`: application shell, menu, countdown screen, exercise screen, end screen, install/help/about content and service worker registration.
 - `css/style.css`: visual layout, responsive basics, buttons, exercise word styling, dark mode and informational sections.
 - `js/app.js`: UI language handling, screen navigation, countdown, session lifecycle, Stroop stimulus generation, manual/automatic modes, autorestart and Wake Lock.
-- `service-worker.js`: PWA offline cache with `CACHE_NAME = "physiostroop-v4"`.
+- `service-worker.js`: PWA offline cache with `CACHE_NAME = "physiostroop-v5"`.
 - `manifest.webmanifest`: installable PWA metadata, icons and app shortcuts.
 - `icons/`: PWA icons.
 - `README.md`: project documentation.
@@ -46,8 +46,8 @@ The app currently registers `service-worker.js` from `index.html`. The service w
 
 Current versioned asset URLs:
 
-- `css/style.css?v=1`
-- `js/app.js?v=4`
+- `css/style.css?v=2`
+- `js/app.js?v=5`
 
 When changing `index.html`, `css/style.css` or `js/app.js`, increment `CACHE_NAME` and keep the asset query strings aligned. When changing `manifest.webmanifest`, icons or `service-worker.js`, verify whether `CACHE_NAME` should also be incremented. Do not mix unrelated UI changes with cache/versioning changes when a small dedicated PR is possible.
 
