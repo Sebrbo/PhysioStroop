@@ -68,6 +68,19 @@ button.stop:hover { opacity: 1; }
 .subtle { color: var(--muted); margin: 12px 0; min-height: 24px; }
 .actions { display: flex; gap: 12px; justify-content: center; }
 
+.language-control {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #eeeeee;
+}
+.language-control label {
+  color: var(--muted);
+  font-size: 14px;
+}
+.language-control select {
+  max-width: 220px;
+}
+
 #intro details { background: rgba(0,0,0,0.03); border: 1px solid #e5e5e5; border-radius: 10px; padding: 12px 14px; }
 #intro summary { cursor: pointer; font-weight: 700; margin-bottom: 8px; }
 #intro details:not([open]) summary { margin-bottom: 0; }
@@ -78,4 +91,11 @@ button.stop:hover { opacity: 1; }
 }
 #intro a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 430px) {
+  input[type="number"], select {
+    width: 100%;
+    max-width: none;
+  }
 }
