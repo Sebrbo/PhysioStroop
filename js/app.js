@@ -15,7 +15,6 @@ const els = {
   stimDuration: document.getElementById('stim-duration'),
   autoOnly: document.getElementById('auto-only'),
   autorestart: document.getElementById('autorestart'),
-  dark: document.getElementById('darkmode'),
 
   start: document.getElementById('start-btn'),
   stop: document.getElementById('stop-btn'),
@@ -36,7 +35,6 @@ const UI_TEXT = {
     session: "Durée session (s)",
     stim: "Affichage par mot (s)",
     autorestart: "Redémarrage auto après fin (s)",
-    dark: "Mode sombre",
     stop: "STOP",
     endTitle: "Session terminée",
     restart: "Relancer",
@@ -50,7 +48,6 @@ const UI_TEXT = {
     session: "Session duration (s)",
     stim: "Word display time (s)",
     autorestart: "Auto restart after end (s)",
-    dark: "Dark mode",
     stop: "STOP",
     endTitle: "Session complete",
     restart: "Restart",
@@ -64,10 +61,6 @@ let wakeLock = null; // Empêche la mise en veille
 function show(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
-}
-
-function applyDarkMode(on) {
-  document.body.classList.toggle('dark', !!on);
 }
 
 function applyUIText(lang) {
@@ -85,7 +78,6 @@ function applyUIText(lang) {
   setText('label[for="session-duration"]', t.session);
   setText('label[for="stim-duration"]', t.stim);
   setText('label[for="autorestart"]', t.autorestart);
-  setText('label[for="darkmode"]', t.dark);
 
   const setById = (id, text) => {
     const el = document.getElementById(id);
@@ -111,26 +103,9 @@ function applyIntro(lang) {
   if (introFr && introEn && introSum) {
     introFr.style.display = isEn ? 'none' : 'block';
     introEn.style.display = isEn ? 'block' : 'none';
-    introSum.textContent = isEn ? 'About' : 'À propos';
+    introSum.textContent = isEn ? 'Information' : 'Informations';
   }
 
-  // Notes d’installation (FR/EN)
-  const noteFr = document.querySelector('.install-note');
-  const noteEn = document.querySelector('.install-note-en');
-  if (noteFr && noteEn) {
-    noteFr.style.display = isEn ? 'none' : 'block';
-    noteEn.style.display = isEn ? 'block' : 'none';
-  }
-
-  // Bloc "À propos de PhysioStroop" (FR/EN)
-  const aboutFr = document.getElementById('about-fr');
-  const aboutEn = document.getElementById('about-en');
-  const aboutSum = document.getElementById('about-summary');
-  if (aboutFr && aboutEn && aboutSum) {
-    aboutFr.style.display = isEn ? 'none' : 'block';
-    aboutEn.style.display = isEn ? 'block' : 'none';
-    aboutSum.textContent = isEn ? 'About PhysioStroop' : 'À propos de PhysioStroop';
-  }
 }
 
 function onModeChange() {
@@ -184,12 +159,8 @@ if (els.lang) {
   });
 }
 
-// --- Dark mode live
-if (els.dark) els.dark.addEventListener('change', () => applyDarkMode(els.dark.checked));
-
 // --- Démarrage / navigation
 if (els.start) els.start.addEventListener('click', () => {
-  applyDarkMode(els.dark && els.dark.checked);
   startCountdown();
 });
 
